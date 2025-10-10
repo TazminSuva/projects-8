@@ -5,7 +5,11 @@ import { useAppContext } from "../components/context/AppContext";
 
 // Hero image
 import heroImg from "../assets/assets/hero.png";
-
+const statsData = [
+  { value: '29.6M', label: 'Total Downloads', subText: '27% More Than Last Month' },
+  { value: '906K', label: 'Total Reviews', subText: '40% More Than Last Month' },
+  { value: '132+', label: 'Active Apps', subText: '2X Since 2021 Launch' },
+];
 // App images
 import demo1 from "../assets/assets/demo-app (1).webp";
 import demo2 from "../assets/assets/demo-app (2).webp";
@@ -78,7 +82,36 @@ export default function Home() {
           />
         </div>
       </section>
+ {/* 2. Stats Section - Trusted By Millions */}
+      <section className="py-12 md:py-16 bg-purple-700 text-white">
+        <div className="container mx-auto px-6 text-center">
+          
+          <h3 className="text-3xl md:text-4xl font-extrabold mb-8">
+            Trusted By Millions, Built For You
+          </h3>
 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {statsData.map((stat, index) => (
+              <div 
+                key={index} 
+                className="p-4 flex flex-col items-center justify-center"
+              >
+                <p className="text-4xl sm:text-5xl font-extrabold mb-1 leading-none">
+                  {stat.value}
+                </p>
+                
+                <p className="text-lg text-purple-200 uppercase tracking-widest mt-2 mb-1">
+                  {stat.label}
+                </p>
+                
+                <p className="text-sm text-purple-300 font-medium">
+                  {stat.subText}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       {/* Trending Apps */}
       <section className="py-16 px-6 md:px-16 bg-gray-50 text-center">
         <h3 className="text-3xl font-bold mb-4">Trending Apps</h3>
@@ -120,4 +153,4 @@ export default function Home() {
       </section>
     </div>
   );
-}
+};

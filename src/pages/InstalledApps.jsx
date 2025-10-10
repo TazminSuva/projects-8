@@ -1,52 +1,160 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaStar, FaDownload } from "react-icons/fa";
 
-export default function InstalledApps() {
-  const [myApps, setMyApps] = useState([
+function InstalledApps() {
+  const [apps, setApps] = useState([
     { id: 1, title: "Forest: Focus", downloads: "9M", rating: 5, size: "258 MB" },
-    { id: 2, title: "Forest: Focus", downloads: "9M", rating: 5, size: "258 MB" },
-    { id: 3, title: "Forest: Focus", downloads: "9M", rating: 5, size: "258 MB" },
+    { id: 2, title: "Todoist", downloads: "1.2M", rating: 4, size: "150 MB" },
+    { id: 3, title: "Pomodoro Timer", downloads: "500K", rating: 5, size: "80 MB" },
   ]);
 
-  const removeApp = (id) => {
-    const newApps = myApps.filter((a) => a.id !== id);
-    setMyApps(newApps);
+  const [msg, setMsg] = useState("");
+
+  const remove = (id, title) => {
+    let copy = apps.filter((x) => x.id !== id);
+    setApps(copy);
+    setMsg(`"${title}" removed successfully`);
+  };
+
+  useEffect(() => {
+    if (msg) {
+      let t = setTimeout(() => setMsg(""), 2500);
+      return () => clearTimeout(t);
+    }
+  }, [msg]);
+
+  const getValue = (v) => {
+    if (v.endsWith("M")) return parseFloat(v) * 1000000;
+    if (v.endsWith("K")) return parseFloat(v) * 1000;
+    return parseFloat(v);
+  };
+
+  const sortIt = (way) => {
+    let arr = [...apps];
+    if (way === "low") arr.sort((a, b) => getValue(a.downloads) - getValue(b.downloads));
+    if (way === "high") arr.sort((a, b) => getValue(b.downloads) - getValue(a.downloads));
+    setApps(arr);
   };
 
   return (
-    <div style={{ backgroundColor: "#f9f9f9", minHeight: "100vh", fontFamily: "sans-serif" }}>
+    <div style={{ background: "#f4f4f4", minHeight: "100vh" }}>
+      {/* Notification */}
+      {msg && (
+        <div
+          style={{
+            position: "fixed",
+            top: 15,
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#16a34a",
+            color: "white",
+            padding: "8px 20px",
+            borderRadius: "6px",
+            fontSize: "14px",
+            zIndex: 999,
+          }}
+        >
+          {msg}
+        </div>
+      )}
+
       {/* Header */}
-      <div style={{ backgroundColor: "#eee", padding: "40px 0", textAlign: "center" }}>
-        <h1 style={{ fontSize: "36px", fontWeight: "bold", color: "#111" }}>Your Installed Apps</h1>
-        <p style={{ color: "#666", marginTop: "10px" }}>All the apps you have installed from us</p>
+      <div
+        style={{
+          background: "#ddd",
+          textAlign: "center",
+          padding: "35px 0",
+        }}
+      >
+        <h1 style={{ fontSize: "30px", fontWeight: "bold", color: "#111" }}>
+          My Installed Apps
+        </h1>
+        <p style={{ color: "#555", marginTop: 5 }}>All installed apps shown here</p>
       </div>
 
-      {/* Apps List */}
-      <div style={{ maxWidth: "800px", margin: "30px auto", padding: "0 20px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-          <h2>{myApps.length} App{myApps.length !== 1 ? "s" : ""} Found</h2>
-          <select style={{ padding: "5px 10px" }}>
-            <option>Sort by Size</option>
-            <option>Sort by Rating</option>
+      {/* Sort Section */}
+      <div
+        style={{
+          maxWidth: 800,
+          margin: "25px auto",
+          padding: "0 20px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: 20,
+          }}
+        >
+          <h3>{apps.length} App{apps.length > 1 && "s"} Found</h3>
+          <select
+            onChange={(e) => sortIt(e.target.value)}
+            style={{ padding: "5px 10px", borderRadius: "5px" }}
+          >
+            <option value="">Sort by Downloads</option>
+            <option value="low">Low to High</option>
+            <option value="high">High to Low</option>
           </select>
         </div>
 
-        {myApps.map((app) => (
-          <div key={app.id} style={{ backgroundColor: "#fff", borderRadius: "10px", padding: "15px", display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px", boxShadow: "0 2px 5px rgba(0,0,0,0.1)" }}>
+        {/* App List */}
+        {apps.map((a) => (
+          <div
+            key={a.id}
+            style={{
+              background: "white",
+              padding: "15px",
+              borderRadius: "8px",
+              marginBottom: 15,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+            }}
+          >
             <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ width: "50px", height: "50px", backgroundColor: "#ddd", borderRadius: "10px", marginRight: "15px" }}></div>
+              <div
+                style={{
+                  width: 50,
+                  height: 50,
+                  background: "#eee",
+                  borderRadius: 10,
+                  marginRight: 15,
+                }}
+              ></div>
               <div>
-                <h3 style={{ fontWeight: "bold", color: "#333" }}>{app.title}</h3>
-                <div style={{ display: "flex", gap: "15px", marginTop: "5px", fontSize: "14px", color: "#555" }}>
-                  <span style={{ display: "flex", alignItems: "center" }}><FaDownload style={{ marginRight: "5px", color: "green" }} />{app.downloads}</span>
-                  <span style={{ display: "flex", alignItems: "center" }}><FaStar style={{ marginRight: "5px", color: "orange" }} />{app.rating}</span>
-                  <span>{app.size}</span>
+                <h4 style={{ marginBottom: 4 }}>{a.title}</h4>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 10,
+                    fontSize: "13px",
+                    color: "#555",
+                  }}
+                >
+                  <span style={{ display: "flex", alignItems: "center" }}>
+                    <FaDownload style={{ marginRight: 5, color: "green" }} />
+                    {a.downloads}
+                  </span>
+                  <span style={{ display: "flex", alignItems: "center" }}>
+                    <FaStar style={{ marginRight: 5, color: "orange" }} />
+                    {a.rating}
+                  </span>
+                  <span>{a.size}</span>
                 </div>
               </div>
             </div>
-            <button 
-              onClick={() => removeApp(app.id)} 
-              style={{ backgroundColor: "#10b981", color: "#fff", padding: "8px 15px", borderRadius: "8px", border: "none", cursor: "pointer" }}
+            <button
+              onClick={() => remove(a.id, a.title)}
+              style={{
+                background: "#16a34a",
+                color: "#fff",
+                border: "none",
+                padding: "7px 15px",
+                borderRadius: "6px",
+                cursor: "pointer",
+              }}
             >
               Uninstall
             </button>
@@ -56,3 +164,5 @@ export default function InstalledApps() {
     </div>
   );
 }
+
+export default InstalledApps;

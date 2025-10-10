@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from './App.jsx';
 import './index.css';
@@ -24,16 +21,13 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "apps", element: <AllApps /> },
-      { path: "app/:appId", element: <AppDetails /> },
+      { path: "app/:id", element: <AppDetails /> },
       { path: "my-installation", element: <MyInstallation /> },
-     { path:"/installedApps", element:<InstalledApps />},
-       {path: "/errorpage", element: <ErrorPage/> },
-     
+      { path: "installedApps", element: <InstalledApps /> },
     ],
   },
 ]);
 
-//  Demo Apps Data
 const demoApps = [
   {
     id: 1,
@@ -73,7 +67,6 @@ const demoApps = [
   }
 ];
 
-//  Render Application
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AppProvider initialApps={demoApps}>

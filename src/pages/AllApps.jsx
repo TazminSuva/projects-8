@@ -19,16 +19,14 @@ const IconDownload = ({ className }) => (
   >
     <path
       fill="currentColor"
-      d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm100.8 288.7l-94 94c-4.7 4.7-12.3 4.7-17 0l-94-94c-4.7-4.7-4.7-12.3 0-17s12.3-4.7 17 0L224 337.5V136c0-6.6 5.4-12 12-12h24c6.6 0 12 5.4 12 12v201.5l51.8-51.8c4.7-4.7 12.3-4.7 17 0s4.7 12.3 0 17z"
-    />
+      d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm100.8 288.7l-94 94c-4.7 4.7-12.3 4.7-17 0l-94-94c-4.7-4.7-4.7-12.3 0-17s12.3-4.7 17 0L224 337.5V136c0-6.6 5.4-12 12-12h24c6.6 0 12 5.4 12 12v201.5l51.8-51.8c4.7-4.7 12.3-4.7 17 0s4.7 12.3 0 17z" />
   </svg>
 );
 const IconStar = ({ className }) => (
   <svg
     className={className}
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 576 512"
-  >
+    viewBox="0 0 576 512" >
     <path
       fill="currentColor"
       d="M259.3 17.8L194 150.3 47.9 161.4c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l129 68.2c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.3 316.7 17.8c-11.7-25-46.3-25-58.4 0z"
@@ -42,8 +40,7 @@ const IconArrowLeft = ({ className }) => (
     fill="none"
     stroke="currentColor"
     viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+    xmlns="http://www.w3.org/2000/svg" >
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -191,6 +188,8 @@ const RatingBar = ({ star, count, totalCount }) => {
 const AppDetail = ({ app, onBack }) => {
   // State for installation process and notification
   const [isInstalling, setIsInstalling] = useState(false);
+    const [installed, setInstalled] = useState(false);
+
   const [notificationMessage, setNotificationMessage] = useState(null);
   const [notificationType, setNotificationType] = useState("success"); 
 
@@ -198,6 +197,11 @@ const AppDetail = ({ app, onBack }) => {
     (sum, count) => sum + count,
     0
   );
+ useEffect(() => {
+    const installedApps = JSON.parse(localStorage.getItem("installedApps")) || [];
+    const isAppInstalled = installedApps.some((a) => a.id === app.id);
+    setInstalled(isAppInstalled); // প্রথমে state update হবে
+  }, [app.id]);
 
   const handleInstall = () => {
     if (isInstalling) return;
@@ -207,6 +211,7 @@ const AppDetail = ({ app, onBack }) => {
 
     setTimeout(() => {
       setIsInstalling(false);
+      setInstalled(true);
       setNotificationType("success");
       setNotificationMessage(`Successfully installed: ${app.title}`); 
       setTimeout(() => {
@@ -225,8 +230,7 @@ const AppDetail = ({ app, onBack }) => {
     return (
       <div
         className={`${baseClasses} ${notificationType === "success" ? successClasses : errorClasses
-          }`}
-      >
+          }`} >
         {notificationMessage}
       </div>
     );
@@ -287,37 +291,34 @@ const AppDetail = ({ app, onBack }) => {
   ${isInstalling
                   ? "bg-gray-400 cursor-not-allowed flex items-center justify-center"
                   : "bg-green-500 hover:bg-green-600"
-                }`}
-            >
+                }`} >
               {isInstalling ? (
-                <span className="flex items-center">
-                  
-                  <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  Installing... 
-                </span>
-              ) : (
-                <span>Install Now ({calculateSize(app.downloads)} MB)</span>
-              )}
-            </button>
+          <span className="flex items-center">
+            <svg
+              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24" >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4" ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" ></path>
+            </svg>
+            Installing...
+          </span>
+        ) : installed ? (
+          "Installed"
+        ) : (
+          "Install Now"
+        )}
+      </button>
           </div>
         </div>
       </div>
@@ -422,7 +423,8 @@ const ApplicationsPage = () => {
     ); 
 
     return filtered.sort((a, b) => b.downloads - a.downloads);
-  }, [apps, searchTerm, isLoading]); 
+  }, 
+  [apps, searchTerm, isLoading]); 
 
   useEffect(() => {
     if (searchTerm) {
@@ -431,7 +433,8 @@ const ApplicationsPage = () => {
         setIsLoading(false);
       }, 500);
       return () => clearTimeout(timer);
-    } else {
+    } 
+    else {
       setIsLoading(false);
     }
   }, [searchTerm]);
@@ -466,8 +469,7 @@ const ApplicationsPage = () => {
                   placeholder="Search apps by title..."
                   className="pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 w-full transition"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+                  onChange={(e) => setSearchTerm(e.target.value)} />
                 <IconSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               </div>
             </div>
@@ -478,21 +480,18 @@ const ApplicationsPage = () => {
                 className="animate-spin h-8 w-8 text-indigo-600"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                viewBox="0 0 24 24"
-              >
+                viewBox="0 0 24 24">
                 <circle
                   className="opacity-25"
                   cx="12"
                   cy="12"
                   r="10"
                   stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
+                  strokeWidth="4" ></circle>
                 <path
                   className="opacity-75"
                   fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" ></path>
               </svg>
             </div>
           ) : (

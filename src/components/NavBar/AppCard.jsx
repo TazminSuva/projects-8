@@ -7,9 +7,11 @@ function AppCard({ app }) {
   const formatDownloads = (num) => {
     if (num >= 1000000) {
       return (num / 1000000).toFixed(1) + "M+";
-    } else if (num > 1000) {
+    } 
+    else if (num > 1000) {
       return (num / 1000).toFixed(1) + "K+";
-    } else {
+    } 
+    else {
       return num;
     }
   };
@@ -26,8 +28,9 @@ function AppCard({ app }) {
             backgroundImage: `url(${app.image})`,
             backgroundSize: "cover",
             backgroundPosition: "center"
-          }}
-        ></div>
+          }}>
+
+          </div>
         <div className="absolute top-0 left-0 w-full h-full bg-black/30 backdrop-blur-sm"></div>
       </figure>
 
@@ -52,8 +55,7 @@ function AppCard({ app }) {
               xmlns="http://www.w3.org/2000/svg" 
               viewBox="0 0 24 24" 
               fill="currentColor" 
-              className="w-4 h-4 text-yellow-400"
-            >
+              className="w-4 h-4 text-yellow-400" >
               <path 
                 fillRule="evenodd" 
                 d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 
@@ -62,8 +64,7 @@ function AppCard({ app }) {
                 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425
                 l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305
                 l5.404-.434 2.082-5.005Z" 
-                clipRule="evenodd" 
-              />
+                clipRule="evenodd" />
             </svg>
             <span className="text-sm font-semibold">{app.ratingAvg.toFixed(1)}</span>
           </div>
@@ -73,8 +74,7 @@ function AppCard({ app }) {
               xmlns="http://www.w3.org/2000/svg" 
               viewBox="0 0 24 24" 
               fill="currentColor" 
-              className="w-4 h-4 text-info"
-            >
+              className="w-4 h-4 text-info"   >
               <path 
                 fillRule="evenodd" 
                 d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.188-3.187a.75.75 
@@ -87,8 +87,7 @@ function AppCard({ app }) {
                 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 
                 0 1-3-3v-3.75a.75.75 0 0 1 
                 .75-.75Z" 
-                clipRule="evenodd" 
-              />
+                clipRule="evenodd" />
             </svg>
             <span className="text-sm font-semibold">{formatDownloads(app.downloads)}</span>
           </div>

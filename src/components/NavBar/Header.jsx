@@ -1,4 +1,6 @@
 import React from "react";
+import { FaGithub } from "react-icons/fa";
+
 import { Link } from "react-router-dom";
 import heroLogo from "../../assets/assets/logo.png"; 
 
@@ -20,14 +22,15 @@ const Header = () => {
         <Link to="/installedApps" className="text-indigo-600   pb-1">Installation</Link>
       </nav>
 
-      <a
-        href="https://github.com/TazminSuva"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="px-4 py-2 bg-indigo-600 text-white font-semibold text-sm rounded-md hover:bg-indigo-700 transition-colors duration-300 flex items-center"
-      >
-        Contribute
-      </a>
+  <a
+  href="https://github.com/TazminSuva"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="px-4 py-2 bg-indigo-600 text-white font-semibold text-sm rounded-md hover:bg-indigo-700 transition-colors duration-300 flex items-center gap-2"
+>
+  <FaGithub className="w-4 h-4" />
+  Contribute
+</a>
     </header>
   );
 };
