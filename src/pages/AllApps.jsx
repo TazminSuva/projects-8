@@ -200,7 +200,7 @@ const AppDetail = ({ app, onBack }) => {
  useEffect(() => {
     const installedApps = JSON.parse(localStorage.getItem("installedApps")) || [];
     const isAppInstalled = installedApps.some((a) => a.id === app.id);
-    setInstalled(isAppInstalled); // প্রথমে state update হবে
+    setInstalled(isAppInstalled); 
   }, [app.id]);
 
   const handleInstall = () => {

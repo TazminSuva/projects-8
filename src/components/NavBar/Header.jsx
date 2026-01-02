@@ -1,15 +1,14 @@
 import React from "react";
 import { FaGithub } from "react-icons/fa";
-
 import { Link } from "react-router-dom";
 import heroLogo from "../../assets/assets/logo.png"; 
 
 const Header = () => {
   return (
-    <header className="bg-white py-4 px-8 flex justify-between items-center border-b border-gray-200 shadow-sm">
+    <header className="fixed top-0 left-0 w-full bg-white py-4 px-8 flex justify-between items-center border-b border-gray-200 shadow-sm z-50">
       <div className="flex items-center gap-2">
         <img
-          src={heroLogo} 
+          src={heroLogo}
           alt="HERO.IO Logo"
           className="w-14 h-14 object-contain"
         />
@@ -17,20 +16,20 @@ const Header = () => {
       </div>
 
       <nav className="hidden md:flex gap-8 text-gray-600 font-medium">
-        <Link to="/" className="text-indigo-600   pb-1">Home</Link>
-        <Link to="/apps" className="text-indigo-600   pb-1">Apps</Link>
-        <Link to="/installedApps" className="text-indigo-600   pb-1">Installation</Link>
+        <Link to="/" className="text-indigo-600 pb-1">Home</Link>
+        <Link to="/apps" className="text-indigo-600 pb-1">Apps</Link>
+        <Link to="/installedApps" className="text-indigo-600 pb-1">Installation</Link>
       </nav>
 
-  <a
-  href="https://github.com/TazminSuva"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="px-4 py-2 bg-indigo-600 text-white font-semibold text-sm rounded-md hover:bg-indigo-700 transition-colors duration-300 flex items-center gap-2"
->
-  <FaGithub className="w-4 h-4" />
-  Contribute
-</a>
+      <a
+        href="https://github.com/TazminSuva"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="px-4 py-2 bg-indigo-600 text-white font-semibold text-sm rounded-md hover:bg-indigo-700 transition-colors duration-300 flex items-center gap-2"
+      >
+        <FaGithub className="w-4 h-4" />
+        Contribute
+      </a>
     </header>
   );
 };

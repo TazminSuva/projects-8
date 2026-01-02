@@ -40,7 +40,7 @@ export default function Home() {
   });
 
   return (
-    <div className="font-sans text-gray-800 py-2 bg-gray">
+    <div className="font-sans text-gray-800 py-18 bg-gray">
       {/* Hero Section */}
       <section className="text-center py-2 px-6 md:px-0">
         <h2 className="text-4xl md:text-5xl font-bold mb-4">

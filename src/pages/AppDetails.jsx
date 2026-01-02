@@ -6,10 +6,12 @@ import { BsChatDotsFill } from "react-icons/bs";
 
 export default function AppDetails() {
   const { appId } = useParams();
+
   const { apps, installedApps, installApp } = useAppContext();
+
   const navigate = useNavigate();
 
-  const app = apps.find((a) => a.id == appId);
+  const app = apps.find((item) => item.id == appId);
 
   if (!app) {
     return (
@@ -17,7 +19,7 @@ export default function AppDetails() {
         <h1 className="text-4xl font-bold text-red-500 mb-4">App Not Found</h1>
         <button
           onClick={() => navigate("/")}
-          className="px-6 py-3 bg-indigo-600 text-white rounded-lg"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
         >
           Go Home
         </button>
@@ -25,7 +27,9 @@ export default function AppDetails() {
     );
   }
 
-  const isInstalled = installedApps.some((a) => a.id == app.id);
+  const installedApp = installedApps.find((item) => item.id == app.id);
+
+  const isInstalled = !!installedApp;
 
   const formatDownloads = (num) => {
     if (num >= 1000000) return Math.round(num / 1000000) + "M+";
@@ -41,22 +45,27 @@ export default function AppDetails() {
           alt={app.title}
           className="w-40 h-40 rounded-xl object-cover shadow-lg"
         />
+
         <div className="flex-1">
           <h1 className="text-3xl font-bold mb-2">{app.title}</h1>
           <p className="text-gray-600 mb-4">By {app.companyName}</p>
 
           <div className="flex gap-6 mb-4">
             <div className="flex items-center gap-1">
-              <FaStar className="text-yellow-500" /> <span>{app.ratingAvg}</span>
+              <FaStar className="text-yellow-500" />
+              <span>{app.ratingAvg}</span>
             </div>
             <div className="flex items-center gap-1">
-              <FaDownload /> <span>{formatDownloads(app.downloads)}</span>
+              <FaDownload />
+              <span>{formatDownloads(app.downloads)}</span>
             </div>
             <div className="flex items-center gap-1">
-              <BsChatDotsFill /> <span>{app.reviews.toLocaleString()}</span>
+              <BsChatDotsFill />
+              <span>{app.reviews.toLocaleString()}</span>
             </div>
           </div>
 
+          {/* Install Button */}
           <button
             onClick={() => installApp(app)}
             disabled={isInstalled}
